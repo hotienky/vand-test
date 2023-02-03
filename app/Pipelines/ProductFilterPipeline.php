@@ -10,6 +10,8 @@ class ProductFilterPipeline extends AbstractFilterPipeline
 {
     protected $pipes = [
         \App\QueryBuilder\Product\ProductName::class,
+        \App\QueryBuilder\Product\Slug::class,
+        \App\QueryBuilder\Product\Status::class,
     ];
 
     public static function run(EloquentBuilder|QueryBuilder $builder, array $context): EloquentBuilder|QueryBuilder

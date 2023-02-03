@@ -18,7 +18,7 @@ class ProductVariantRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return request()->user();
     }
 
     /**
@@ -37,6 +37,7 @@ class ProductVariantRequest extends FormRequest
             "status" => ['required', new EnumRule(ActiveStatus::class)],
             "images" => ['required'],
             "images.*" => ['required', 'string'],
+            "description" => ['nullable', 'max:1000']
         ];
     }
 

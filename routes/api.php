@@ -2,8 +2,8 @@
 
 use App\Http\Controllers\v1\AuthController;
 use App\Http\Controllers\v1\ProductController;
+use App\Http\Controllers\v1\ProductVariantController;
 use App\Http\Controllers\v1\StoreController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,5 +30,6 @@ Route::prefix('v1')->group(function () {
     Route::middleware('auth:api')->group(function () {
         Route::apiResource('stores', StoreController::class);
         Route::apiResource('products', ProductController::class);
+        Route::apiResource('product_variants', ProductVariantController::class);
     });
 });

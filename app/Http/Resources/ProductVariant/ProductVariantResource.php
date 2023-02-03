@@ -19,7 +19,7 @@ class ProductVariantResource extends JsonResource
             'images' => $this->images,
             "sku" => $this->sku,
             "name"=> $this->name,
-            "stock_price"=> $this->stock_price,
+            "stockPrice"=> $this->stock_price,
             "price"=> $this->price,
             "stock"=> $this->stock,
             "status"=>  ActiveStatus::tryFrom((int) $this->status)?->label,

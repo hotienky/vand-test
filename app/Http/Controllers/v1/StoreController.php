@@ -37,7 +37,7 @@ class StoreController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\StoreRequest  $request
+     * @param  StoreRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreRequest $request)
@@ -65,7 +65,7 @@ class StoreController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  Store  $store
      * @return \Illuminate\Http\Response
      */
     public function show(Store $store)
@@ -79,8 +79,8 @@ class StoreController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  StoreUpdateRequest  $request
+     * @param  Store  $store
      * @return \Illuminate\Http\Response
      */
     public function update(StoreUpdateRequest $request, Store $store)
@@ -97,7 +97,7 @@ class StoreController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Store  $store
      * @return \Illuminate\Http\Response
      */
     public function destroy(Store $store)
@@ -105,5 +105,7 @@ class StoreController extends Controller
         if(!$store) {
             return api_errors('store not found');
         }
+        $store->delete();
+        return api_success("Delete success");
     }
 }

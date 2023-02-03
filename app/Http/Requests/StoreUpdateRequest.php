@@ -16,9 +16,6 @@ class StoreUpdateRequest extends FormRequest
      */
     public function authorize()
     {
-        logger()->info(Rule::unique('stores')->where(function ($query){
-            return $query->where('store_name', request()->store_name)->where('user_id', Auth::user()->id)->where('id', '!=',$this->store->id);
-        }));
         return request()->user();
     }
 

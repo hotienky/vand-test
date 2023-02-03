@@ -11,6 +11,7 @@ class StoreFilterPipeline extends AbstractFilterPipeline
     protected $pipes = [
         \App\QueryBuilder\Store\StoreName::class,
         \App\QueryBuilder\Store\Address::class,
+        \App\QueryBuilder\Store\Status::class,
     ];
 
     public static function run(EloquentBuilder|QueryBuilder $builder, array $context): EloquentBuilder|QueryBuilder

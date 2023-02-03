@@ -44,6 +44,9 @@ class CreateProductRequest extends FormRequest
             "product_variants.*.status" => ['required', new EnumRule(ActiveStatus::class)],
             "product_variants.*.images" => ['required'],
             "product_variants.*.images.*" => ['required', 'string'],
+            "product_variants.*.description" => ['nullable', 'max:1000']
+
+
         ];
     }
 
