@@ -28,7 +28,15 @@ Route::prefix('v1')->group(function () {
         Route::post('refresh', 'refresh');
     });
     Route::middleware('auth:api')->group(function () {
-        Route::apiResource('stores', StoreController::class);
+        Route::apiResource('stores', StoreController::class, [
+            'names' => [
+                'index' => 'stores.index',
+                'store' => 'stores.store',
+                'show' => 'stores.show',
+                'update' => 'stores.update',
+                'destroy' => 'stores.destroy',
+            ]
+        ]);
         Route::apiResource('products', ProductController::class);
         Route::apiResource('product_variants', ProductVariantController::class);
     });
