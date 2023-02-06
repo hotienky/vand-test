@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\v1;
 
+use App\Constants\Activity;
 use Exception;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateProductRequest;
@@ -12,6 +13,7 @@ use App\Models\Product;
 use App\Models\ProductVariant;
 use App\Models\Store;
 use App\Pipelines\ProductFilterPipeline;
+use App\Services\Contracts\ActivityServiceInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -19,6 +21,12 @@ use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
+    private ActivityServiceInterface $activityService;
+
+    public function __construct(ActivityServiceInterface $activityService)
+    {
+        $this->activityService = $activityService;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -88,6 +96,14 @@ class ProductController extends Controller
             $product->product_variants()->saveMany($arr_variants);
             //commit insert database
             DB::commit();
+
+            //write activity log
+            $this->activityService->log(
+                Activity::CREATE_PRODUCT,
+                $user->id,
+                $product,
+                []
+            );
             return api_success(ProductResource::make($product));
         } catch (\Throwable $th) {
             DB::rollBack();
@@ -123,7 +139,7 @@ class ProductController extends Controller
     {
         try {
             DB::beginTransaction();
-
+            $productOld = $product;
             //check product exists
             if (!$product) {
                 return api_errors('product not found');
@@ -144,6 +160,15 @@ class ProductController extends Controller
             $product->stores()->sync($store_ids);
 
             DB::commit();
+
+            //write activity log
+            $this->activityService->log(
+                Activity::UPDATE_PRODUCT,
+                Auth::user()->id,
+                $product,
+                $productOld
+            );
+
             return api_success($product);
         } catch (\Throwable $th) {
             DB::rollBack();
@@ -168,6 +193,13 @@ class ProductController extends Controller
             //handle delete product_variants and product
             $product->product_variants()->delete();
             $product->delete();
+              //write activity log
+              $this->activityService->log(
+                Activity::DELETE_PRODUCT,
+                Auth::user()->id,
+                $product,
+                []
+            );
             return api_success('Delete success');
         } catch (\Throwable $th) {
             return api_errors('Error! An error occurred. Please try again later');

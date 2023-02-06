@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\v1\ActivityHistoryController;
 use App\Http\Controllers\v1\AuthController;
 use App\Http\Controllers\v1\ProductController;
 use App\Http\Controllers\v1\ProductVariantController;
@@ -39,5 +40,6 @@ Route::prefix('v1')->group(function () {
         ]);
         Route::apiResource('products', ProductController::class);
         Route::apiResource('product_variants', ProductVariantController::class);
+        Route::apiResource('activities',[ActivityHistoryController::class, 'index']);
     });
 });
