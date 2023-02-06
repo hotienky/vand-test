@@ -25,11 +25,12 @@ class ActivityHistoryController extends Controller
     {
         //Get parameters
         $page = $request->get('page', 1);
-        $pageSize = $request->get(config('oms.page_size_parameter'), config('oms.per_page'));
+
+        $pageSize = $request->get(config('page.page_size_parameter'), config('page.per_page'));
         $filter = $request->all();
 
         $activities = $this->activityService->getActivityLogs($filter, $page, $pageSize);
 
-        return $this->respondPartialContent($activities);
+        return api_success($activities);
     }
 }
