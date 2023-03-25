@@ -41,15 +41,15 @@ services:
       - app-network
 
   #DB access tool
-  adminer:
-    depends_on:
-      - db
-    image: adminer:4.8.0
-    restart: always
-    ports:
-      - 8080:8080
-    networks:
-      - app-network
+#   adminer:
+#     depends_on:
+#       - db
+#     image: adminer:4.8.0
+#     restart: always
+#     ports:
+#       - 8080:8080
+#     networks:
+#       - app-network
 
 #Docker Networks
 networks:
