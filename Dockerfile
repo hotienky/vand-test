@@ -1,31 +1,30 @@
-FROM php:8.0-apache
-
+FROM php:8.2-apache
 
 #install all the system dependencies and enable PHP modules
 RUN apt-get update && apt-get install -y \
-      cron \
-      libicu-dev \
-      libpq-dev \
-      libmcrypt-dev \
-      gnupg2 \
-      zip \
-      zlib1g-dev \
-      unzip \
-      libfreetype6-dev \
-      libjpeg62-turbo-dev \
-      libpng-dev \
-      libzip-dev \
-      libmagickwand-dev \
+    cron \
+    libicu-dev \
+    libpq-dev \
+    libmcrypt-dev \
+    gnupg2 \
+    zip \
+    zlib1g-dev \
+    unzip \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
+    libpng-dev \
+    libzip-dev \
+    libmagickwand-dev \
     && pecl install imagick \
     && docker-php-ext-enable imagick \
     && rm -r /var/lib/apt/lists/* \
     && docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd \
     && docker-php-ext-configure gd --with-freetype=/usr/include/ --with-jpeg=/usr/include/ \
     && docker-php-ext-install \
-      pdo_mysql \
-      zip \
-      gd \
-      opcache
+    pdo_mysql \
+    zip \
+    gd \
+    opcache
 
 RUN cp /usr/local/etc/php/php.ini-production /usr/local/etc/php/php.ini
 
@@ -55,12 +54,16 @@ RUN php composer.phar install --no-dev
 #change ownership of our applications
 RUN mkdir -p storage/logs
 RUN chown -R www-data:www-data storage public
+RUN php artisan vendor:publish --provider="Barryvdh\DomPDF\ServiceProvider"
 
 COPY ./docker/docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh && ln -s /usr/local/bin/docker-entrypoint.sh /
 RUN echo "ServerName 127.0.0.1" >> /etc/apache2/apache2.conf
 
+#apply cronjob
+# RUN touch /var/log/cron.log
+# RUN (crontab -l ; echo "* * * * * cd /var/www/html && /usr/local/bin/php artisan schedule:run >> /dev/null 2>&1") | crontab
+
 EXPOSE 80
 
-ENTRYPOINT ["docker-entrypoint.sh"]
-
+# ENTRYPOINT ["docker-entrypoint.sh"]

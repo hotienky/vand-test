@@ -1,34 +1,35 @@
 version: '3'
 services:
-  #PHP Service
-#   app:
-#     build:
-#       context: .
-#       dockerfile: Dockerfile
-#     image: vand-image
-#     container_name: vand-container
-#     restart: unless-stopped
-#     tty: true
-#     ports:
-#       - "80:80"
-#     environment:
-#       SERVICE_NAME: app
-#       SERVICE_TAGS: dev
-#     working_dir: /var/www/html
-#     volumes:
-#       - ./:/var/www/html
-#     networks:
-#       - app-network
+    #PHP Service
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: site-selection-app
+    container_name: app
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "80:80"
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+    working_dir: /var/www/html
+    volumes:
+      - ./:/var/www/html
+    networks:
+      - app-network
 
   #MySQL Service
   db:
-    # image: mysql:5.7.22
     image: mariadb:10.5.8
     container_name: db
     restart: unless-stopped
     tty: true
     ports:
       - "3306:3306"
+    expose:
+      - 3306
     environment:
       MYSQL_DATABASE: vand-db
       MYSQL_ROOT_PASSWORD: root
