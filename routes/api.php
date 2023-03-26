@@ -17,8 +17,13 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
 Route::get('ping', function () {
     return api_success('okok');
+});
+
+Route::get('/', function () {
+    return api_success('welcome to om healing app');
 });
 
 Route::prefix('v1')->group(function () {
@@ -40,6 +45,6 @@ Route::prefix('v1')->group(function () {
         ]);
         Route::apiResource('products', ProductController::class);
         Route::apiResource('product_variants', ProductVariantController::class);
-        Route::get('activities',[ActivityHistoryController::class, 'index']);
+        Route::get('activities', [ActivityHistoryController::class, 'index']);
     });
 });

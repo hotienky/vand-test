@@ -54,6 +54,7 @@ RUN php composer.phar install --no-dev
 #change ownership of our applications
 RUN mkdir -p storage/logs
 RUN chown -R www-data:www-data storage public
+RUN chown -R www-data:www-data *
 RUN php artisan vendor:publish --provider="Barryvdh\DomPDF\ServiceProvider"
 
 COPY ./docker/docker-entrypoint.sh /usr/local/bin/
