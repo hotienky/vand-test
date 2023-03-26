@@ -60,10 +60,7 @@ COPY ./docker/docker-entrypoint.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/docker-entrypoint.sh && ln -s /usr/local/bin/docker-entrypoint.sh /
 RUN echo "ServerName 127.0.0.1" >> /etc/apache2/apache2.conf
 
-#apply cronjob
-# RUN touch /var/log/cron.log
-# RUN (crontab -l ; echo "* * * * * cd /var/www/html && /usr/local/bin/php artisan schedule:run >> /dev/null 2>&1") | crontab
-
 EXPOSE 80
+
 
 # ENTRYPOINT ["docker-entrypoint.sh"]

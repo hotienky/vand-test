@@ -5,12 +5,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: site-selection-app
+    image: om_app_api
     container_name: app
     restart: unless-stopped
     tty: true
     ports:
-      - "80:80"
+      - "8000:80"
     environment:
       SERVICE_NAME: app
       SERVICE_TAGS: dev
@@ -19,6 +19,8 @@ services:
       - ./:/var/www/html
     networks:
       - app-network
+    depends_on:
+      - db
 
   #MySQL Service
   db:
@@ -28,8 +30,6 @@ services:
     tty: true
     ports:
       - "3306:3306"
-    expose:
-      - 3306
     environment:
       MYSQL_DATABASE: vand-db
       MYSQL_ROOT_PASSWORD: root
@@ -40,16 +40,16 @@ services:
     networks:
       - app-network
 
-  #DB access tool
-#   adminer:
-#     depends_on:
-#       - db
-#     image: adminer:4.8.0
-#     restart: always
-#     ports:
-#       - 8080:8080
-#     networks:
-#       - app-network
+#   DB access tool
+  adminer:
+    depends_on:
+      - db
+    image: adminer:4.8.0
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - app-network
 
 #Docker Networks
 networks:
