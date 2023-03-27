@@ -60,7 +60,7 @@ Route::prefix('/public/employee_otp/')->group(function ($route) {
             return response()->json([
                 "code" => 400,
                 "name" => "Bad Request",
-                "description" => "Error"
+                "description" => "OTP invalid"
             ]);
         }
         return response()->json([
