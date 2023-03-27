@@ -56,7 +56,7 @@ Route::prefix('/public/employee_otp/')->group(function ($route) {
             'required' => 'The :attribute field is required.',
             'digits' => ':attribute must have 6 digits'
         ]);
-        if ($validator->fails() || $request->get('otp') !== '111111') {
+        if ($validator->fails() || $request->get('otp_code') !== '111111') {
             return response()->json([
                 "code" => 400,
                 "name" => "Bad Request",
